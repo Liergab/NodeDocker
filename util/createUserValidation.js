@@ -18,5 +18,10 @@ export const createUserValidation  = {
         notEmpty:{
             errorMessage:"DisplayName is required",
         }
+    },
+    password:{
+      notEmpty:{
+        errorMessage:"DisplayName is required",
+    }
     }
 }
