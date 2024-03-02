@@ -5,12 +5,13 @@ import users        from './routes/users.js'
 import products     from './routes/products.js'
 import cookieParser from 'cookie-parser';
 import session      from 'express-session';
-import passport from 'passport'; 
+import passport     from 'passport'; 
 import './strategies/local-strategies.js'
 const app = express()
 
 app.use(express.json())
 app.use(cookieParser('helloworld'))
+
 app.use(session({
     secret:'sample',
     saveUninitialized:false,
@@ -26,6 +27,13 @@ app.use(passport.session());
 
 
 app.post('/api/auth',passport.authenticate("local"), (req ,res) => {
+    res.sendStatus(200)
+})
+app.get('/api/auth/status', (req, res) => {
+   
+    console.log(req.session)
+    return req.user ? res.status(200).json({data:req.user})  : res.sendStatus(401);
+   
 
 })
 app.use(users);
