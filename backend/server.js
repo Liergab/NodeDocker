@@ -5,6 +5,8 @@ import users        from './routes/users.js'
 import products     from './routes/products.js'
 import cookieParser from 'cookie-parser';
 import session      from 'express-session';
+import passport from 'passport'; 
+import './strategies/local-strategies.js'
 const app = express()
 
 app.use(express.json())
@@ -16,8 +18,16 @@ app.use(session({
     cookie:{
         maxAge: 60000 * 60,
     }
-}))
+}));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+app.post('/api/auth',passport.authenticate("local"), (req ,res) => {
+
+})
 app.use(users);
 app.use(products)
 
@@ -28,15 +38,6 @@ app.get('/',(req,res) => {
     res.send('have session')
 })
 
-app.use('/user/auth', (req, res) => {
-    const {userName, password} = req.body
-    try {
-        
-    } catch (error) {
-        console.error(error);
-        res.send(error)
-    }
-})
 
 app.listen(5000, () => {
     console.log(`Server is running at http://localhost:5000`);

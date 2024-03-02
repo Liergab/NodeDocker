@@ -27,4 +27,31 @@ router.get('/user', async(req,res) => {
     res.status(200).json({data:user})
 })
 
+router.get('/user/auth/status', (req, res) => {
+    req.sessionStore.get(req.sessionID, (err, session) => {
+        console.log(session)
+    });
+   return req.session.user 
+   ? res.status(200).send(req.session.user) 
+   : res.status(401).send('Not authenticated');
+})
+
+router.post('/user/auth', async(req, res) => {
+    const {userName, password} = req.body
+    try {
+        const user = await userModel.findOne({userName});
+
+        if(!user || password !== user.password){
+            res.status(401).json({err:'Invalid Credentials'})
+        }else{
+            req.session.user = user
+            res.status(200).json(user)
+        }
+        
+    } catch (error) {
+        console.error(error);
+        res.send(error)
+    }
+});
+
 export default router

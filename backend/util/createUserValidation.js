@@ -1,5 +1,5 @@
 export const createUserValidation  = {
-    userName:{
+    username:{
       isLength:{
         Option:{
             min:1,
@@ -14,7 +14,7 @@ export const createUserValidation  = {
         errorMessage:"UserName is required",
       }
     },
-    displayName:{
+    displayname:{
         notEmpty:{
             errorMessage:"DisplayName is required",
         }
