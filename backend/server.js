@@ -29,13 +29,6 @@ app.use(passport.session());
 app.post('/api/auth',passport.authenticate("local"), (req ,res) => {
     res.sendStatus(200)
 })
-app.get('/api/auth/status', (req, res) => {
-   
-    console.log(req.session)
-    return req.user ? res.status(200).json({data:req.user})  : res.sendStatus(401);
-   
-
-})
 app.use(users);
 app.use(products)
 

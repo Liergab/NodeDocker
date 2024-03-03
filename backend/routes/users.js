@@ -31,15 +31,16 @@ router.get('/user/auth/status', (req, res) => {
     req.sessionStore.get(req.sessionID, (err, session) => {
         console.log(session)
     });
+    console.log(req.sessionID)
    return req.session.user 
    ? res.status(200).send(req.session.user) 
    : res.status(401).send('Not authenticated');
 })
 
 router.post('/user/auth', async(req, res) => {
-    const {userName, password} = req.body
+    const {username, password} = req.body
     try {
-        const user = await userModel.findOne({userName});
+        const user = await userModel.findOne({username});
 
         if(!user || password !== user.password){
             res.status(401).json({err:'Invalid Credentials'})
@@ -53,5 +54,12 @@ router.post('/user/auth', async(req, res) => {
         res.send(error)
     }
 });
+
+router.get('/api/auth/status', (req, res) => {
+   
+    console.log(req.session)
+    return req.user ? res.status(200).json({data:req.user})  : res.sendStatus(401);
+
+})
 
 export default router
