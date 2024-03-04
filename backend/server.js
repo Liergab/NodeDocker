@@ -1,12 +1,19 @@
 import express      from 'express';
 import 'dotenv/config';
-import db           from './config/connection.js';
 import users        from './routes/users.js'
 import products     from './routes/products.js'
 import cookieParser from 'cookie-parser';
 import session      from 'express-session';
 import passport     from 'passport'; 
+import MongoStore from 'connect-mongo';
 import './strategies/local-strategies.js'
+
+import mongoose from 'mongoose';
+mongoose
+	.connect(process.env.MONGO_URL)
+	.then(() => console.log("Connected to Database"))
+	.catch((err) => console.log(`Error: ${err}`));
+
 const app = express()
 
 app.use(express.json())
@@ -18,7 +25,10 @@ app.use(session({
     resave:false,
     cookie:{
         maxAge: 60000 * 60,
-    }
+    },
+    store: MongoStore.create({
+        client:mongoose.connection.getClient()
+    })
 }));
 
 app.use(passport.initialize());
@@ -42,5 +52,5 @@ app.get('/',(req,res) => {
 
 app.listen(5000, () => {
     console.log(`Server is running at http://localhost:5000`);
-    db();
+    // db();
 });  

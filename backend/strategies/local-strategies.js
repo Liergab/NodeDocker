@@ -1,7 +1,8 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
 import userModel from "../model/userModel.js";
-
+import bcrypt from 'bcrypt';
+import { comparedPassword } from "../config/bcrypt.js";
 passport.serializeUser((user, done) => {
     console.log(`Serializa: ${user}`)
     done(null, user._id)
@@ -28,10 +29,12 @@ export default passport.use(
         try {
             const user = await userModel.findOne({username})
 
-            if(!user || user.password !== password){
-                throw new Error('Invalid Credentials!');
-            }
+            if(user && comparedPassword(password, user.password)){
                 done(null, user)
+            }else{
+                throw new Error('Invalid Credentials')
+            }
+
         } catch (error) {
             done(error, null)
             console.log(error)
