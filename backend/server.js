@@ -6,8 +6,8 @@ import cookieParser from 'cookie-parser';
 import session      from 'express-session';
 import passport     from 'passport'; 
 import MongoStore from 'connect-mongo';
-import './strategies/local-strategies.js'
-
+// import './strategies/local-strategies.js'
+import './strategies/discord-strategies.js'
 import mongoose from 'mongoose';
 mongoose
 	.connect(process.env.MONGO_URL)
@@ -36,8 +36,14 @@ app.use(passport.session());
 
 
 
-app.post('/api/auth',passport.authenticate("local"), (req ,res) => {
-    res.sendStatus(200)
+// app.post('/api/auth',passport.authenticate("local"), (req ,res) => {
+//     res.sendStatus(200)
+// })
+app.get('/api/auth/discord',passport.authenticate("discord"), (req ,res) => {
+       
+})
+app.get('/api/auth/discord/redirect',passport.authenticate("discord"), (req ,res) => {
+       
 })
 app.use(users);
 app.use(products)
@@ -52,5 +58,4 @@ app.get('/',(req,res) => {
 
 app.listen(5000, () => {
     console.log(`Server is running at http://localhost:5000`);
-    // db();
 });  

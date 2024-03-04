@@ -1,7 +1,6 @@
 import passport from "passport";
 import { Strategy } from "passport-local";
 import userModel from "../model/userModel.js";
-import bcrypt from 'bcrypt';
 import { comparedPassword } from "../config/bcrypt.js";
 passport.serializeUser((user, done) => {
     console.log(`Serializa: ${user}`)
