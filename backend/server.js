@@ -43,8 +43,9 @@ app.get('/api/auth/discord',passport.authenticate("discord"), (req ,res) => {
        
 })
 app.get('/api/auth/discord/redirect',passport.authenticate("discord"), (req ,res) => {
-       
+       res.status(200).json({user:req.user})
 })
+
 app.use(users);
 app.use(products)
 
