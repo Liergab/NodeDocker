@@ -39,7 +39,6 @@ router.get('/api/auth/status', (req, res) => {
    
     console.log(req.session)
     return req.user ? res.status(200).json({data:req.user}) : res.sendStatus(401);
-
 })
 router.post('/api/auth/logout', (req, res) => {
     if (!req.user) {
@@ -53,6 +52,8 @@ router.post('/api/auth/logout', (req, res) => {
         return res.sendStatus(200);
     });
 });
+
+
 
 
 
